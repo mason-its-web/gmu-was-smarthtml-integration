@@ -6,6 +6,9 @@ Version: 1.0.0
 Author: ITS Web Services
 */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 function enqueueAssets() {
     $args = array(
         'strategy'      => 'defer',
