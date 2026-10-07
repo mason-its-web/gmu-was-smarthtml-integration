@@ -9,6 +9,17 @@ Author: ITS Web Services
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+// Plugin Update Checker.
+require_once __DIR__ . '/plugin-update-checker/plugin-update-checker.php';
+
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+$update_checker = PucFactory::buildUpdateChecker(
+    'https://github.com/mason-its-web/gmu-was-pdf2html-integration',
+    __FILE__,
+    'gmu-was-pdf2html-integration'
+);
+
+
 function enqueueAssets() {
     $args = array(
         'strategy'      => 'defer',
