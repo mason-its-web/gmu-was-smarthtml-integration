@@ -1,13 +1,19 @@
 <?php
-/*
-Plugin Name: Mason WordPress: PDF2HTML JS Integration
-Description: Implement PDF2HTML on Mason WordPress Websites
-Version: 1.0.0
-Author: ITS Web Services
-*/
+/**
+ * Plugin Name:   Mason WordPress: SmartHTML Integration
+ * Description:   Implement SmartHTML PDF conversion app on Mason WordPress Websites
+ * Version:       1.0.0
+ * Author:        ITS Web Services, George Mason University
+ * Author URI:    https://its.gmu.edu
+ * Text Domain:   gmu-was-emergencyalerts
+ *
+ * @package       GMU_WAS_SMARTHTML_INTEGRATION
+ */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 
 // Plugin Update Checker.
 require_once __DIR__ . '/plugin-update-checker/plugin-update-checker.php';
