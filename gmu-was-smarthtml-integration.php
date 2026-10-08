@@ -5,14 +5,14 @@
  * Version:       1.0.0
  * Author:        ITS Web Services, George Mason University
  * Author URI:    https://its.gmu.edu
- * Text Domain:   gmu-was-emergencyalerts
+ * Text Domain:   gmu-was-smarthtml-integration
  *
  * @package       GMU_WAS_SMARTHTML_INTEGRATION
  */
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 
 // Plugin Update Checker.
@@ -20,29 +20,41 @@ require_once __DIR__ . '/plugin-update-checker/plugin-update-checker.php';
 
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 $update_checker = PucFactory::buildUpdateChecker(
-    'https://github.com/mason-its-web/gmu-was-pdf2html-integration',
-    __FILE__,
-    'gmu-was-pdf2html-integration'
+	'https://github.com/mason-its-web/gmu-was-pdf2html-integration',
+	__FILE__,
+	'gmu-was-pdf2html-integration'
 );
 
-
-function enqueueAssets() {
-    $args = array(
-        'strategy'      => 'defer',
-        'in_footer'     => FALSE,
-        'fetchpriority' => 'auto'
-    );
-    wp_enqueue_script('gmu-was-pdf2html', 'https://ingestion.pdfaccess.app/tohtml.min.js', array(), null, $args);
+/**
+ * Attach the javascript with required attributes.
+ *
+ * @return void
+ */
+function enqueue_assets() {
+	$args = array(
+		'strategy'      => 'defer',
+		'in_footer'     => false,
+		'fetchpriority' => 'auto',
+	);
+	wp_enqueue_script( 'gmu-was-smarthtml-integration', 'https://ingestion.pdfaccess.app/tohtml.min.js', array(), '1.0.0', $args );
 }
-add_action('wp_enqueue_scripts', 'enqueueAssets', 1);
+add_action( 'wp_enqueue_scripts', 'enqueue_assets', 1 );
 
-// Intercept the HTML tag and add the crossorigin attribute
-function add_crossorigin_attribute($tag, $handle, $src) {
-    // Target only your specific script handle
-    if ('gmu-was-pdf2html' === $handle) {
-        // Add the crossorigin attribute to the HTML script tag
-        $tag = str_replace('<script ', '<script crossorigin="anonymous" ', $tag);
-    }
-    return $tag;
+/**
+ * Intercept the HTML tag and add the crossorigin attribute
+ *
+ * @param string $tag     The tag to alter.
+ * @param string $handle  Identifier for the specific tag we're targeting.
+ * @param string $src     The script source.
+ *
+ * @return string The updated script tag.
+ */
+function add_crossorigin_attribute( $tag, $handle, $src ) {
+	// Target only the specific script handle.
+	if ( 'gmu-was-pdf2html' === $handle ) {
+		// Add the crossorigin attribute to the HTML script tag.
+		$tag = str_replace( '<script ', '<script crossorigin="anonymous" ', $tag );
+	}
+	return $tag;
 }
-add_filter('script_loader_tag', 'add_crossorigin_attribute', 10, 3);
+add_filter( 'script_loader_tag', 'add_crossorigin_attribute', 10, 3 );
